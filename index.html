@@ -52,6 +52,8 @@
             overflow-x: auto;
             font-size: 14px;
             border: 1px solid #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -73,34 +75,26 @@
     </div>
 
     <script>
-        // This JavaScript handles the button click and builds the JSON
         function generateJSON() {
-            // 1. Get the text the user typed
             const userText = document.getElementById('promptInput').value;
 
-            // 2. Stop if the box is empty
             if (userText.trim() === "") {
                 alert("Please enter a prompt first!");
                 return;
             }
 
-            // 3. Create a simulated JSON object structure
-            // (Later, this is where you would connect to a real Python backend)
             const simulatedResponse = {
                 "compiler_status": "success",
                 "timestamp": new Date().toISOString(),
                 "input_received": userText,
                 "parsed_data": {
-                    "word_count": userText.split(" ").length,
+                    "word_count": userText.split(/\s+/).filter(Boolean).length,
                     "action_type": "interface_generation",
                     "estimated_complexity": "medium"
                 }
             };
 
-            // 4. Convert the object to a beautifully formatted text string
             const formattedJSON = JSON.stringify(simulatedResponse, null, 2);
-
-            // 5. Display it on the screen
             document.getElementById('jsonOutput').textContent = formattedJSON;
         }
     </script>
