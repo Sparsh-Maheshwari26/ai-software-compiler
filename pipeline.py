@@ -5,7 +5,7 @@ from validator import validate_and_repair
 
 # PASTE YOUR NEW SECURE KEY HERE BEFORE RUNNING LOCALLY, 
 # BUT REMOVE IT BEFORE UPLOADING TO GITHUB
-GEMINI_KEY = "AIzaSyBH3sOhn3Cge3BjzbXGw8habAm7C0oeUbc"
+GEMINI_KEY = ""
 # Initialize the client
 client = genai.Client(api_key=GEMINI_KEY)
 
