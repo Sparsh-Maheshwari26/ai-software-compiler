@@ -5,99 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Software Compiler</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        textarea {
-            width: 100%;
-            height: 120px;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            resize: vertical;
-        }
-        button {
-            background-color: #2ea44f;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        button:hover {
-            background-color: #2c974b;
-        }
-        .output-container {
-            margin-top: 30px;
-        }
-        pre {
-            background-color: #1e1e1e;
-            color: #d4d4d4;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-size: 14px;
-            border: 1px solid #333;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; margin-top: 0; }
+        textarea { width: 100%; height: 150px; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; }
+        button { background-color: #2ea44f; color: white; border: none; padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; }
+        button:hover { background-color: #268940; }
+        pre { background-color: #1e1e1e; color: #75beff; padding: 20px; border-radius: 8px; overflow-x: auto; font-size: 14px; min-height: 100px; border-left: 5px solid #2ea44f; }
+        .loading { color: #666; font-style: italic; }
     </style>
 </head>
 <body>
 
-    <h1>AI Compiler Interface</h1>
-    <p>Enter your software requirements below to generate the structured JSON output.</p>
+    <div class="card">
+        <h1>⚡ AI Compiler Interface</h1>
+        <p>This interface connects to a <strong>Multi-Stage Repair Pipeline</strong>.</p>
 
-    <textarea id="promptInput" placeholder="e.g., Build a login screen with an email and password field..."></textarea>
-    <br>
-    <button onclick="generateJSON()">Generate JSON</button>
+        <textarea id="promptInput" placeholder="Describe the application architecture (e.g. CRM with role-based access)..."></textarea>
+        <button id="compileBtn" onclick="generateJSON()">🚀 Compile Architecture</button>
 
-    <div class="output-container">
-        <h2>Compiler Output:</h2>
-        <pre id="jsonOutput">{
-  "status": "waiting",
-  "message": "Enter a prompt and click generate."
-}</pre>
+        <div class="output-container">
+            <h3>Compiler Output (Validated JSON):</h3>
+            <pre id="jsonOutput">Ready for input...</pre>
+        </div>
     </div>
 
     <script>
-        function generateJSON() {
+        async function generateJSON() {
             const userText = document.getElementById('promptInput').value;
+            const outputArea = document.getElementById('jsonOutput');
+            const btn = document.getElementById('compileBtn');
 
-            if (userText.trim() === "") {
-                alert("Please enter a prompt first!");
+            if (userText.trim().length < 10) {
+                alert("Please provide a more detailed specification.");
                 return;
             }
 
-            const simulatedResponse = {
-                "compiler_status": "success",
-                "timestamp": new Date().toISOString(),
-                "input_received": userText,
-                "parsed_data": {
-                    "word_count": userText.split(/\s+/).filter(Boolean).length,
-                    "action_type": "interface_generation",
-                    "estimated_complexity": "medium"
-                }
-            };
+            // UI State: Loading
+            outputArea.textContent = "Compiling: Intent Extraction -> Schema Generation -> Consistency Check...";
+            btn.disabled = true;
+            btn.textContent = "⚙️ Processing Pipeline...";
 
-            const formattedJSON = JSON.stringify(simulatedResponse, null, 2);
-            document.getElementById('jsonOutput').textContent = formattedJSON;
+            try {
+                // Replace with your actual hosted API URL (Render/Railway/Streamlit)
+                const response = await fetch('YOUR_BACKEND_URL/compile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: userText })
+                });
+
+                const data = await response.json();
+                
+                // Display real engineered JSON
+                outputArea.textContent = JSON.stringify(data, null, 2);
+                outputArea.style.color = "#75beff";
+
+            } catch (error) {
+                outputArea.textContent = "Error: Backend compiler not reachable. Ensure app.py is running.";
+                outputArea.style.color = "#ff4b4b";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "🚀 Compile Architecture";
+            }
         }
     </script>
 
 </body>
-</html> 
+</html>
