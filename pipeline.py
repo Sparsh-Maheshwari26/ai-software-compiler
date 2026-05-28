@@ -2,10 +2,11 @@ from google import genai
 from models import AppConfig
 import json
 from validator import validate_and_repair
+import os   
 
 # PASTE YOUR NEW SECURE KEY HERE BEFORE RUNNING LOCALLY, 
 # BUT REMOVE IT BEFORE UPLOADING TO GITHUB
-GEMINI_KEY = ""
+GEMINI_KEY = os.environ.get("GEMINI_KEY")
 # Initialize the client
 client = genai.Client(api_key=GEMINI_KEY)
 
