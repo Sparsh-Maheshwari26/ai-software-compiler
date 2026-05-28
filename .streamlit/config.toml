@@ -1,0 +1,15 @@
+[theme]
+# The main background color
+backgroundColor = "#F0F2F6"
+
+# The background color for the sidebar
+secondaryBackgroundColor = "#FFFFFF"
+
+# The main text color
+textColor = "#262730"
+
+# The accent color for buttons, sliders, and highlights
+primaryColor = "#4F46E5"
+
+# The font family (options: "sans serif", "serif", "monospace")
+font = "sans serif"
